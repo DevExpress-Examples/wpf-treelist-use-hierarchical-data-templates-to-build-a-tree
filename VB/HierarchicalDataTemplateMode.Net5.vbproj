@@ -76,7 +76,4 @@
     <PackageReference Include="DevExpress.Wpf.Reporting" Version="21.1.*-*" />
     <PackageReference Include="DevExpress.Wpf.Themes.All" Version="21.1.*-*" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Properties\AssemblyInfo.SL.vb" />
-  </ItemGroup>
 </Project>
