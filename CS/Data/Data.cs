@@ -1,15 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Collections;
-using System.Xml.Serialization;
-using System.Reflection;
-using System.Windows.Media.Imaging;
 using System.Windows.Media;
-using System.Collections.Specialized;
+using System.Windows.Media.Imaging;
 
 namespace HierarchicalDataTemplateMode {
     public class BaseObject : INotifyPropertyChanged {
