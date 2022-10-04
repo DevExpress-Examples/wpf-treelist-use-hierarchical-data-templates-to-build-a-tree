@@ -6,16 +6,18 @@
         xmlns:dxe="http://schemas.devexpress.com/winfx/2008/xaml/editors"
         xmlns:local="clr-namespace:HierarchicalDataTemplateMode"
         Title="MainWindow" Height="450" Width="700">
+    <Window.DataContext>
+        <local:ViewModel/>
+    </Window.DataContext>
     <Window.Resources>
         <ResourceDictionary>
-         
             <local:States x:Key="states" />
             <HierarchicalDataTemplate DataType="{x:Type local:ProjectObject}" ItemsSource="{Binding Stages}">
                 <dx:MeasurePixelSnapper>
                     <StackPanel Orientation="Vertical">
                         <ContentPresenter x:Name="defaultRowPresenter" Content="{Binding}" ContentTemplate="{Binding View.DefaultDataRowTemplate}" />
                         <Border Padding="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderBrush="#FFC3CEDC" BorderThickness="0,1,0,0">
-                            <ProgressBar Height="5" Minimum="0" Maximum="100" Value="{Binding Row,Converter={local:ProjectObjectToProgressConverter}}" />
+                            <ProgressBar Height="5" Minimum="0" Maximum="100" Value="{Binding Row.Progress}" />
                         </Border>
                     </StackPanel>
                 </dx:MeasurePixelSnapper>
@@ -25,7 +27,7 @@
                     <StackPanel Orientation="Vertical">
                         <ContentPresenter x:Name="defaultRowPresenter" Content="{Binding}" ContentTemplate="{Binding View.DefaultDataRowTemplate}" />
                         <Border Padding="2" HorizontalAlignment="Stretch" VerticalAlignment="Center" BorderBrush="#FFC3CEDC" BorderThickness="0,1,0,0">
-                            <ProgressBar Height="5" Minimum="0" Maximum="100" Value="{Binding Row,Converter={local:ProjectStageToProgressConverter}}" />
+                            <ProgressBar Height="5" Minimum="0" Maximum="100" Value="{Binding Row.Progress}" />
                         </Border>
                     </StackPanel>
                 </dx:MeasurePixelSnapper>
@@ -55,17 +57,17 @@
                             </Grid.ColumnDefinitions>
                             <StackPanel Margin="2,0" Orientation="Horizontal" Grid.Column="0" Grid.Row="0">
                                 <TextBlock Text="StartDate:" FontWeight="Bold" />
-                                <TextBlock Text="{Binding Row, StringFormat='MM/dd/yyyy',Converter={local:TaskToStartDateConverter}}" Margin="3,0,0,0" />
+                                <TextBlock Text="{Binding Row.StartDate, StringFormat='MM/dd/yyyy'}" Margin="3,0,0,0" />
                             </StackPanel>
                             <StackPanel Margin="2,0" Orientation="Horizontal" Grid.Column="0" Grid.Row="1">
                                 <TextBlock Text="EndDate:" FontWeight="Bold" />
-                                <TextBlock Text="{Binding Row, StringFormat='MM/dd/yyyy',Converter={local:TaskToEndDateConverter}}" Margin="3,0,0,0" />
+                                <TextBlock Text="{Binding Row.EndDate, StringFormat='MM/dd/yyyy'}" Margin="3,0,0,0" />
                             </StackPanel>
                             <dxe:ComboBoxEdit HorizontalAlignment="Right" VerticalAlignment="Center" MinWidth="100" Foreground="Black" IsTextEditable="False"
                                               ItemsSource="{Binding DataSource, Source={StaticResource states}}"
                                               DisplayTemplate="{StaticResource ComboBoxStateItemTemplate}"
                                               EditNonEditableTemplate="{StaticResource ComboBoxStateItemTemplate}"
-                                              SelectedItem="{Binding Row, Mode=TwoWay,Converter={local:TaskToStateConverter}}"
+                                              SelectedItem="{Binding Row.State}"
                                               Grid.Column="1" Grid.RowSpan="2">
                                 <dxe:ComboBoxEdit.ItemTemplate>
                                     <DataTemplate>
@@ -85,14 +87,13 @@
         </ResourceDictionary>
     </Window.Resources>
     <Grid>
-        <dxg:TreeListControl x:Name="treeList" ItemsSource="{Binding DataItems}" >
+        <dxg:TreeListControl ItemsSource="{Binding DataItems}">
             <dxg:TreeListControl.Columns>
-                <dxg:TreeListColumn FieldName="Name" AllowSorting="True" />
-                <dxg:TreeListColumn FieldName="Executor" AllowSorting="True" />
+                <dxg:TreeListColumn FieldName="Name"/>
+                <dxg:TreeListColumn FieldName="Executor"/>
             </dxg:TreeListControl.Columns>
             <dxg:TreeListControl.View>
-                <dxg:TreeListView x:Name="view" TreeDerivationMode="HierarchicalDataTemplate"
-                                  AllowEditing="True" NavigationStyle="Cell" />
+                <dxg:TreeListView TreeDerivationMode="HierarchicalDataTemplate"/>
             </dxg:TreeListControl.View>
         </dxg:TreeListControl>
     </Grid>
